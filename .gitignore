@@ -1,6 +1,7 @@
 .venv/
 env/
 venv/
+.env
 
 .DS_Store
 Thumbs.db
@@ -34,5 +35,7 @@ static/
 
 media/
 
-*/migrations/*.py
-!*/migrations/__init__.py
+**/migrations/__pycache__/
+**/migrations/*.pyc
+
+gen_tarefas_db
