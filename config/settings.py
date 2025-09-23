@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 load_dotenv()
 
@@ -41,10 +42,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
     'projects.apps.ProjectsConfig',
     'tasks.apps.TasksConfig',
     'users.apps.UsersConfig',
+
     'rest_framework',
+    'dj_rest_auth',
+    'rest_framework_simplejwt',
+    'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -55,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -83,7 +92,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
@@ -133,3 +142,28 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_AUTH = {
+    'USE_JWT': True,
+    #'JWT_AUTH_HTTPONLY': False,
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+SITE_ID = 1
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:5173',
+]
