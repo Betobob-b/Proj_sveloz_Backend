@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
+from rest_framework.validators import UniqueValidator;
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,6 +10,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+
+    email = serializers.EmailField(
+            required=True,
+            validators=[
+                UniqueValidator(
+                    queryset=User.objects.all(),
+                    message="Este email já está em uso."
+                )
+            ]
+        )
+
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
     class Meta:
