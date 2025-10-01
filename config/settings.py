@@ -145,7 +145,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_AUTH = {
     'USE_JWT': True,
-    #'JWT_AUTH_HTTPONLY': False,
+    'JWT_AUTH_HTTPONLY': False,
 }
 
 SIMPLE_JWT = {
